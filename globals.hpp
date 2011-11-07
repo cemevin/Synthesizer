@@ -4,6 +4,7 @@
 #define PI 3.14159265
 #define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
 #define MAX(X,Y) ((X) < (Y) ? (Y) : (X))
+#define CLIP(X) MAX(0,MIN(255,(X)))
 
 #define SAMPLE (192000.0)
 #define ISAMP ((int)SAMPLE)

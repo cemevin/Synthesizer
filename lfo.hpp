@@ -3,22 +3,24 @@
 
 #define LFO_FX_VOLUME	0
 #define LFO_FX_PITCH	1
-//#define LFO_FX_PULSE	2
-#define LFO_FX_COUNT	2
+#define LFO_FX_LPFREQ	2
+#define LFO_FX_COUNT	3
 
 #include <iostream>
 #include <cmath>
 #include "globals.hpp"
 #include "envelope.hpp"
+
+#include "lowpass.hpp"
 /********** variables **********/
 
 // array elements represent settings for {VOLUME, PITCH} respectively
-bool	LFO_ENABLED[3]		= {false, false}; 
-float	LFO_FREQ[3]			= {20,20};
-float 	LFO_RANGE[3] 		= {1,1};
+bool	LFO_ENABLED[3]		= {false, false, false}; 
+float	LFO_FREQ[3]			= {20,20,20};
+float 	LFO_RANGE[3] 		= {1,1,1};
 
 //internal
-int	LFO_STEP[3]	= {0,0};
+int	LFO_STEP[3]	= {0,0,0};
 
 /********** END variables **********/
 
@@ -55,6 +57,14 @@ void LFO(){
 		LFO_STEP[1]%=(int)(SAMPLE/LFO_FREQ[1]);
 		
 		//std::cout<<lfoLevel<<" "<<pow(LFO_RANGE[1],lfoLevel)<<std::endl;
+	}
+	if(LFO_ENABLED[LFO_FX_LPFREQ] == true){ //düzelt!!!!!!!!!!!!
+		lfoLevel = sin(((float)LFO_STEP[2]*LFO_FREQ[2])/SAMPLE*2.0*PI);
+		mf.setCutoff(lowpassfreq*pow(LFO_RANGE[2],lfoLevel));
+		mf.setRes(lowpassres*pow(LFO_RANGE[2],lfoLevel));
+		
+		LFO_STEP[2]++;
+		LFO_STEP[2]%=(int)(SAMPLE/LFO_FREQ[2]);
 	}
 	
 	

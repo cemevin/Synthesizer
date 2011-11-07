@@ -22,15 +22,20 @@ int main(int argc, char ** argv)
 	record = searchArg("-r", argc, argv);
 
 	//set oscillators
-	setOscillator(CHANNEL_LEFT, PULSE_NARROW, 1, 0.5);
-	setOscillator(CHANNEL_RIGHT, PULSE_NARROW, 2.007, 0.5);
+	setOscillator(CHANNEL_LEFT, SQUARE, 1, 0.5);
+	setOscillator(CHANNEL_RIGHT, SQUARE, 1, 0.5);
 
 	//envelope settings
-	setEnvelope(ISAMP*0.2, ISAMP, 0.8, ISAMP*0.5);
+	setEnvelope(ISAMP*0.025, ISAMP*0.5, 1, ISAMP*0.1);
+	
+	//lpfilter settings
+	lpenabled = true;
+	setLP(500., 0.);
 	
 	//lfo settings
-	setLFO(LFO_FX_VOLUME, true, 4, 1.1);
-	setLFO(LFO_FX_PITCH, true, 1, 1.01);
+	setLFO(LFO_FX_VOLUME, false, 4, 1.1);
+	setLFO(LFO_FX_PITCH, false, 4, 1.01);
+	setLFO(LFO_FX_LPFREQ, false, 0.1, 10); //düzelt!!
 	//cout<<_pitchShift[0]<<" "<<_pitchShift[1]<<endl;
 	start();
 	
